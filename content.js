@@ -6,7 +6,8 @@ const convertMap = {
     VND: 23735,
     GBP: 0.78,
     USD: 1,
-    EUR: 0.91
+    EUR: 0.91,
+    RUB: 96.29
   },
   JPY: {
     USD: 1 / 142.25,
@@ -15,7 +16,8 @@ const convertMap = {
     VND: 166.88,
     GBP: 0.0055,
     JPY: 1,
-    EUR: 0.0064
+    EUR: 0.0064,
+    RUB: 0.68
   },
   KRW: {
     USD: 1 / 1306.10,
@@ -24,7 +26,8 @@ const convertMap = {
     VND: 18,
     GBP: 0.0006,
     KRW: 1,
-    EUR: 0.00070
+    EUR: 0.00070,
+    RUB: 0.074
   },
   CNY: {
     USD: 0.14,
@@ -33,7 +36,8 @@ const convertMap = {
     VND: 3307.65,
     GBP: 0.11,
     CNY: 1,
-    EUR: 0.13
+    EUR: 0.13,
+    RUB: 13.35
   },
   VND: {
     JPY: 0.006,
@@ -42,7 +46,8 @@ const convertMap = {
     VND: 1,
     GBP: 0.78,
     USD: 1 / 23735,
-    EUR: 0.000038
+    EUR: 0.000038,
+    RUB: 0.00404 
   },
   GBP: {
     JPY: 181.29,
@@ -51,7 +56,8 @@ const convertMap = {
     VND: 30262.13,
     GBP: 1,
     USD: 1.28,
-    EUR: 1.16
+    EUR: 1.16,
+    RUB: 122.29
   },
   EUR: {
     JPY: 156.31,
@@ -60,7 +66,18 @@ const convertMap = {
     VND: 25600,
     GBP: 0.86,
     USD: 1.1,
-    EUR: 1
+    EUR: 1,
+    RUB: 105.59
+  },
+  RUB: {
+    JPY: 1.48,
+    KRW: 13.58,
+    CNY: 0.075,
+    VND: 246.76,
+    GBP: 0.0082,
+    USD: 0.010,
+    EUR: 0.0095,
+    RUB: 1
   }
 }
 
@@ -71,7 +88,8 @@ const symbolMap = {
   VND: "₫",
   GBP: "£",
   USD: "$",
-  EUR: "€"
+  EUR: "€",
+  RUB: "₽"
 }
 
 let from = "USD";
@@ -120,7 +138,7 @@ const converting = () => {
 }
 
 const convertBtn = createElementFromHTML('<button class="injected-button" id="inject-convert-btn">' +
-  'Chuyển đổi' +
+  'Convert' +
   '</button>'
 );
 
@@ -139,7 +157,7 @@ const fromSelect = createElementFromHTML(
 );
 fromSelect.addEventListener("change", (e) => {
   from = e.target.value;
-  quickConvertInput.placeholder = `${symbolMap[from]}1000.00 thành ${symbolMap[to]}???`
+  quickConvertInput.placeholder = `${symbolMap[from]}1000.00 to ${symbolMap[to]}???`
 });
 
 const toSelect = createElementFromHTML(
@@ -154,10 +172,10 @@ const toSelect = createElementFromHTML(
   '</select>');
 toSelect.addEventListener("change", (e) => {
   to = e.target.value;
-  quickConvertInput.placeholder = `${symbolMap[from]}1000.00 thành ${symbolMap[to]}???`
+  quickConvertInput.placeholder = `${symbolMap[from]}1000.00 to ${symbolMap[to]}???`
 });
 
-const sang = createElementFromHTML('<p class="injected-p">Sang</p>')
+const sang = createElementFromHTML('<p class="injected-p">To</p>')
 
 const closeBtn = createElementFromHTML(`<button class="injected-button" id="close-btn">${"<"}</button>`);
 
@@ -169,21 +187,21 @@ const container2 = createElementFromHTML(`<div class="inject-convert-container">
 const checkRate = createElementFromHTML(`
   <input type="checkbox" name="useRate" id="useRate"></input>
 `);
-const tyGia = createElementFromHTML(`<p class="injected-p">Tỷ giá: </p>`);
+const tyGia = createElementFromHTML(`<p class="injected-p">Ex-rate: </p>`);
 const rateInput = createElementFromHTML(`
 <input class="injected-number-input" type="number" name="rate" id="rate" placeholder="VD: 23000.00"></input>
 `);
 
 const container3 = createElementFromHTML(`
 <div class="inject-convert-container">
-<p class="injected-p">Đổi: </p></div>
+<p class="injected-p">Manual: </p></div>
 `);
 
 const quickConvertInput = createElementFromHTML(`
-<input class="injected-number-input" type="number" name="quickconvert" id="quickconvert" placeholder="${symbolMap[from]}1000.00 thành ${symbolMap[to]}???">
+<input class="injected-number-input" type="number" name="quickconvert" id="quickconvert" placeholder="${symbolMap[from]}1000.00 to ${symbolMap[to]}???">
 `);
 
-const quickConvertBtn = createElementFromHTML(`<button class="injected-button" id="smallConvert">Đổi</button>`);
+const quickConvertBtn = createElementFromHTML(`<button class="injected-button" id="smallConvert">Convert</button>`);
 quickConvertBtn.addEventListener("click", () => {
   if (checkRate.checked) {
     quickConvertInput.value = parseFloat(quickConvertInput.value) * parseFloat(rateInput.value);
