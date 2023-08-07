@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Chuyển đổi https://cryptocurrency.market/",
+  "description": "Chuyển đổi đơn vị tiền cho web: https://cryptocurrency.market/",
+  "version": "2.0.8",
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": ["https://cryptocurrency.market/*"],
+      "css": [
+        "content.css"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": ["<all_urls>"]
+}
