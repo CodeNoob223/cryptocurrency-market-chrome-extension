@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Chuyển đổi https://cryptocurrency.market/",
   "description": "Chuyển đổi đơn vị tiền cho web: https://cryptocurrency.market/",
-  "version": "2.0.8",
+  "version": "2.0.12",
   "content_scripts": [
     {
       "js": [

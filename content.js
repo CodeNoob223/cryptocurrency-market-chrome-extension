@@ -47,7 +47,7 @@ const convertMap = {
     GBP: 0.78,
     USD: 1 / 23735,
     EUR: 0.000038,
-    RUB: 0.00404 
+    RUB: 0.00404
   },
   GBP: {
     JPY: 181.29,
@@ -106,28 +106,38 @@ function createElementFromHTML(htmlString) {
 
 const converting = () => {
   const blocks = document.querySelectorAll(`
-  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter.MuiTableCell-sizeSmall.css-1h8ubhf, 
-  .MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-1gzh8i0,
-  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-1thfh4x p.whitespace-nowrap,
-  div.MuiTabPanel-root.css-14k9ai8 div.flex.space-x-4.mb-10 div.rounded-lg.p-6.text-white.flex-1 p.text-xl.font-bold,
-  tr.MuiTableRow-root.MuiTableRow-hover.css-1pqm6o1 td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-1thfh4x
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss26.css-nw9fri p.whitespace-nowrap,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss18.css-nw9fri p.whitespace-nowrap,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss18.css-nw9fri p.text-primary span.whitespace-nowrap:first-child,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss26.css-nw9fri,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-nw9fri,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-nw9fri p.text-primary span.whitespace-nowrap:first-child ,
+  div.flex.flex-col.flex-grow.text-center.font-normal.leading-relaxed.text-white.py-3.rounded p.text-2xl.font-normal,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter.MuiTableCell-sizeSmall.css-q06iui,
+  td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight.MuiTableCell-sizeSmall.css-4m4gm6,
+  div.absolute.bottom-0.mb-12.w-full.text-white.text-xs.font-semibold p.text-sm,
+  div.rounded-lg.p-6.text-white.flex-1 p.text-xl.font-bold.text-center,
+  div.flex.flex-col.flex-grow.font-normal.leading-relaxed.border.border-gray-400.rounded.py-3.px-4 p.text-2xl.text-center,
+  div.flex.flex-col.flex-grow.text-center.font-normal.leading-relaxed.text-white.py-3.rounded p.text-2xl font-normal,
+  td.MuiTableCell-root.MuiTableCell-footer.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss30.css-75yi8i p.whitespace-nowrap,
+  td.MuiTableCell-root.MuiTableCell-footer.MuiTableCell-alignRight.MuiTableCell-sizeSmall.jss30.css-75yi8i p.text-primary span.whitespace-nowrap:first-child
   `
   );
   blocks.forEach(block => {
-    if (block.textContent[0] === symbolMap[from]) {
+    if (block.textContent[0] === symbolMap[from] || block.textContent[1] === symbolMap[from] || !isNaN(block.textContent[0])) {
       let formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: to
       });
       if (checkRate.checked) {
         block.textContent = `${formatter.format(
-          parseFloat(block.textContent.split(symbolMap[from])[1].replaceAll(",", ""))
+          parseFloat(block.textContent.split(symbolMap[from])[!isNaN(block.textContent[0]) ? 0 : 1].replaceAll(",", ""))
           *
           parseFloat(rateInput.value)
         )}`;
       } else {
         block.textContent = `${formatter.format(
-          parseFloat(block.textContent.split(symbolMap[from])[1].replaceAll(",", ""))
+          parseFloat(block.textContent.split(symbolMap[from])[!isNaN(block.textContent[0]) ? 0 : 1].replaceAll(",", ""))
           *
           parseFloat(convertMap[from][to])
         )}`;
@@ -203,6 +213,7 @@ const quickConvertInput = createElementFromHTML(`
 
 const quickConvertBtn = createElementFromHTML(`<button class="injected-button" id="smallConvert">Convert</button>`);
 quickConvertBtn.addEventListener("click", () => {
+  if (isNaN(quickConvertInput.value)) return;
   if (checkRate.checked) {
     quickConvertInput.value = parseFloat(quickConvertInput.value) * parseFloat(rateInput.value);
   } else {
